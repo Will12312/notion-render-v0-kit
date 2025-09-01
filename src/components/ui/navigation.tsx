@@ -20,6 +20,9 @@ const Navigation = () => {
             <a href="#pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Pricing
             </a>
+            <a href="/components" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Components
+            </a>
             <a href="#about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               About
             </a>
