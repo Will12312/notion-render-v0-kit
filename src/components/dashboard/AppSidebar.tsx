@@ -54,8 +54,8 @@ const isActive = (path: string) => currentPath === path;
       className={collapsed ? "w-14" : "w-64"}
       collapsible="icon"
     >
-      <SidebarHeader className="border-b border-border/50">
-        <div className="flex items-center px-6 py-4">
+      <SidebarHeader className="h-16 border-b border-border/50">
+        <div className="flex items-center px-6 h-full">
           <div className="h-8 w-8 rounded-full bg-gradient-to-r from-primary to-primary/60 flex items-center justify-center">
             <span className="text-white font-semibold text-sm">D</span>
           </div>
