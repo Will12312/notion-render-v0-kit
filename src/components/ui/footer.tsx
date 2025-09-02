@@ -1,126 +1,129 @@
+import { Button } from "@/components/ui/button";
 import { Github, Twitter, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border/40 bg-background">
-      <div className="container-modern py-12 md:py-16">
-        <div className="grid gap-8 md:grid-cols-4">
-          {/* Brand */}
+    <footer className="border-t border-border bg-background">
+      <div className="container mx-auto px-4">
+        <div className="grid gap-8 py-12 md:grid-cols-4">
+          {/* Brand section */}
           <div className="md:col-span-1">
             <div className="flex items-center mb-4">
-              <div className="h-8 w-8 rounded-lg bg-gradient-primary"></div>
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-primary to-primary/60"></div>
               <span className="ml-2 text-xl font-semibold text-foreground">SaaS</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
-              The modern SaaS boilerplate for developers who want to ship fast.
+              The modern SaaS boilerplate for building and launching your product faster.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                <Github className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                <Linkedin className="h-5 w-5" />
-              </a>
+              <Button variant="ghost" size="sm">
+                <Twitter className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="sm">
+                <Github className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="sm">
+                <Linkedin className="h-4 w-4" />
+              </Button>
             </div>
           </div>
 
-          {/* Product */}
+          {/* Product links */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Product</h3>
-            <ul className="space-y-3">
+            <h3 className="mb-4 text-sm font-semibold text-foreground">Product</h3>
+            <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   Features
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   Pricing
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Changelog
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Documentation
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Roadmap
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  API Reference
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Company links */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Company</h3>
-            <ul className="space-y-3">
+            <h3 className="mb-4 text-sm font-semibold text-foreground">Company</h3>
+            <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   About
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   Blog
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   Careers
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   Contact
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Resources */}
+          {/* Resources links */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Resources</h3>
-            <ul className="space-y-3">
+            <h3 className="mb-4 text-sm font-semibold text-foreground">Resources</h3>
+            <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Documentation
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Help Center
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  API Reference
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Community
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Support
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   Status
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Changelog
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-12 pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-muted-foreground">
-            © 2024 SaaS. All rights reserved.
-          </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Terms of Service
-            </a>
+        {/* Bottom section */}
+        <div className="border-t border-border py-6">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <p className="text-sm text-muted-foreground">
+              © 2024 SaaS Boilerplate. All rights reserved.
+            </p>
+            <div className="flex gap-6 text-sm">
+              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                Privacy Policy
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                Terms of Service
+              </a>
+            </div>
           </div>
         </div>
       </div>
