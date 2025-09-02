@@ -1,48 +1,47 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import "./navigation.module.css";
 
 const Navigation = () => {
   return (
-    <nav className="navigation">
-      <div className="navigation-container">
-        <div className="navigation-content">
+    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border/40">
+      <div className="container-modern">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="navigation-logo">
+          <div className="flex items-center">
             <div className="h-8 w-8 rounded-lg bg-gradient-primary"></div>
-            <span className="ml-2 text-xl font-semibold">SaaS</span>
+            <span className="ml-2 text-xl font-semibold text-foreground">SaaS</span>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="navigation-menu">
-            <a href="#features" className="navigation-link">
+          <div className="hidden md:flex items-center space-x-8">
+            <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Features
             </a>
-            <a href="#pricing" className="navigation-link">
+            <a href="#pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Pricing
             </a>
-            <a href="/components" className="navigation-link">
+            <a href="/components" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Components
             </a>
-            <a href="#about" className="navigation-link">
+            <a href="#about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               About
             </a>
           </div>
 
           {/* CTA Buttons */}
-          <div className="navigation-actions">
+          <div className="hidden md:flex items-center space-x-3">
             <Button variant="ghost" size="sm">
               Sign In
             </Button>
             <Button size="sm">
               Get Started
             </Button>
-            
-            {/* Mobile Menu Button */}
-            <Button variant="ghost" size="sm" className="mobile-menu-button">
-              <Menu className="h-5 w-5" />
-            </Button>
           </div>
+
+          {/* Mobile Menu Button */}
+          <Button variant="ghost" size="sm" className="md:hidden">
+            <Menu className="h-5 w-5" />
+          </Button>
         </div>
       </div>
     </nav>

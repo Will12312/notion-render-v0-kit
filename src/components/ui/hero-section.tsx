@@ -1,37 +1,39 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
-import "./hero-section.module.css";
 
 const HeroSection = () => {
   return (
-    <section className="hero">
-      <div className="hero-container">
-        <div className="hero-content">
+    <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-subtle -z-10"></div>
+      
+      <div className="container-modern">
+        <div className="mx-auto max-w-4xl text-center">
           {/* Badge */}
-          <div className="hero-badge">
+          <div className="inline-flex items-center rounded-full border border-border/50 bg-card/50 px-3 py-1 text-sm font-medium text-muted-foreground backdrop-blur-sm mb-8">
             <Sparkles className="mr-1.5 h-3.5 w-3.5" />
             Now in public beta
           </div>
 
           {/* Main heading */}
-          <h1 className="hero-title">
+          <h1 className="text-balance mb-6 text-4xl font-semibold tracking-tight text-foreground md:text-6xl lg:text-7xl">
             Build your SaaS
             <span className="gradient-text"> faster than ever</span>
           </h1>
 
           {/* Subheading */}
-          <p className="hero-subtitle">
+          <p className="text-balance mx-auto mb-10 max-w-2xl text-lg text-muted-foreground md:text-xl">
             A modern, beautiful, and production-ready SaaS boilerplate. 
             Ship your idea in days, not months.
           </p>
 
           {/* CTA Buttons */}
-          <div className="hero-actions">
-            <Button size="lg">
+          <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+            <Button size="lg" className="px-8">
               Get Started Free
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" className="px-8">
               View Demo
             </Button>
           </div>
