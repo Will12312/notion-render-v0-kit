@@ -19,19 +19,8 @@ export function DashboardHeader() {
 
   return (
     <header className="h-16 border-b border-border/50 bg-background">
-      <div className="flex h-full items-center justify-between px-6">
-        {/* Gauche - Logo et trigger sidebar */}
-        <div className="flex items-center gap-4">
-          <SidebarTrigger />
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-full bg-gradient-to-r from-primary to-primary/60 flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">D</span>
-            </div>
-            <span className="text-lg font-semibold text-foreground">Dashboard</span>
-          </div>
-        </div>
-
-        {/* Droite - Menu utilisateur */}
+      <div className="flex h-full items-center justify-end px-6">
+        {/* Menu utilisateur */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="flex items-center gap-3 hover:bg-accent">
