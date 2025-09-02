@@ -43,41 +43,43 @@ export function AppSidebar() {
   const currentPath = location.pathname;
   const collapsed = state === "collapsed";
 
-  const isActive = (path: string) => currentPath === path;
+const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive 
-      ? "bg-sidebar-accent text-sidebar-primary font-medium border-r-2 border-sidebar-primary" 
-      : "hover:bg-sidebar-accent/50 text-sidebar-foreground";
+      ? "bg-primary/10 text-primary font-medium" 
+      : "text-muted-foreground hover:text-foreground hover:bg-accent/50";
 
   return (
     <Sidebar
       className={collapsed ? "w-14" : "w-64"}
       collapsible="icon"
     >
-      <SidebarHeader className="border-b border-sidebar-border">
-        <div className="flex items-center px-3 py-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-            <span className="text-white font-bold text-sm">D</span>
+      <SidebarHeader className="border-b border-border/50">
+        <div className="flex items-center px-6 py-4">
+          <div className="h-8 w-8 rounded-full bg-gradient-to-r from-primary to-primary/60 flex items-center justify-center">
+            <span className="text-white font-semibold text-sm">D</span>
           </div>
           {!collapsed && (
-            <span className="ml-3 text-lg font-semibold text-sidebar-foreground">
+            <span className="ml-3 text-lg font-semibold text-foreground">
               Dashboard
             </span>
           )}
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="px-3">
         <SidebarGroup>
-          <SidebarGroupLabel>Principal</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xs font-medium text-muted-foreground px-3 py-2">
+            Principal
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {mainItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end className={getNavCls}>
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span className="ml-3">{item.title}</span>}
+                      <item.icon className="h-5 w-5" />
+                      {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -86,16 +88,18 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Gestion</SidebarGroupLabel>
+        <SidebarGroup className="mt-8">
+          <SidebarGroupLabel className="text-xs font-medium text-muted-foreground px-3 py-2">
+            Gestion
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {managementItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end className={getNavCls}>
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span className="ml-3">{item.title}</span>}
+                      <item.icon className="h-5 w-5" />
+                      {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
