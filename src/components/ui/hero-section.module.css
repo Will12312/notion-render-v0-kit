@@ -1,0 +1,79 @@
+/* Hero section styles - Tailwind 4 */
+.hero {
+  padding: 6rem 0;
+  background: theme(--gradient-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 0%, color-mix(in srgb, theme(colors.primary) 5%, transparent) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-container {
+  margin: 0 auto;
+  max-width: 80rem;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: theme(colors.foreground);
+  margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+  font-size: theme(fontSize.xl);
+  color: theme(colors.muted-foreground);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 640px) {
+  .hero-actions {
+    flex-wrap: nowrap;
+  }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: theme(borderRadius.full);
+  background-color: color-mix(in srgb, theme(colors.primary) 10%, transparent);
+  color: theme(colors.primary);
+  font-size: theme(fontSize.sm);
+  font-weight: 500;
+  margin-bottom: 2rem;
+  border: 1px solid color-mix(in srgb, theme(colors.primary) 20%, transparent);
+}

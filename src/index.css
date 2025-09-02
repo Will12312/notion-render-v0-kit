@@ -1,168 +1,92 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "./styles/tailwind.css";
 
-/* Modern design system inspired by Notion, v0, and Render 
-All colors MUST be HSL - Clean, professional, subtle aesthetics
-*/
-
-@layer base {
-  :root {
-    /* Modern neutral palette */
-    --background: 0 0% 100%;
-    --foreground: 215 25% 8%;
-    
-    /* Elevated surfaces */
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 8%;
-    
-    /* Popover components */
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 8%;
-    
-    /* Primary brand colors - subtle blue like v0 */
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
-    --primary-subtle: 221 83% 97%;
-    
-    /* Secondary surfaces - warm gray like Notion */
-    --secondary: 215 14% 97%;
-    --secondary-foreground: 215 25% 8%;
-    
-    /* Muted elements */
-    --muted: 215 14% 97%;
-    --muted-foreground: 215 16% 47%;
-    
-    /* Accent highlights */
-    --accent: 215 14% 97%;
-    --accent-foreground: 215 25% 8%;
-    
-    /* Destructive actions */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    
-    /* Borders and inputs - very subtle */
-    --border: 215 14% 91%;
-    --input: 215 14% 91%;
-    --ring: 221 83% 53%;
-
-    --radius: 0.75rem;
-    
-    /* Modern gradients for subtle effects */
-    --gradient-subtle: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(215 14% 99%) 100%);
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(221 83% 45%) 100%);
-    
-    /* Subtle shadows for depth */
-    --shadow-sm: 0 1px 2px 0 hsl(215 25% 8% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(215 25% 8% / 0.1), 0 2px 4px -1px hsl(215 25% 8% / 0.06);
-    --shadow-lg: 0 10px 15px -3px hsl(215 25% 8% / 0.1), 0 4px 6px -2px hsl(215 25% 8% / 0.05);
-    
-    /* Sidebar tokens */
-    --sidebar-background: 215 14% 99%;
-    --sidebar-foreground: 215 25% 8%;
-    --sidebar-primary: 221 83% 53%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 14% 97%;
-    --sidebar-accent-foreground: 215 25% 8%;
-    --sidebar-border: 215 14% 91%;
-    --sidebar-ring: 221 83% 53%;
-  }
-
-  .dark {
-    /* Dark mode - cleaner like Notion dark */
-    --background: 215 28% 7%;
-    --foreground: 215 20% 95%;
-    
-    --card: 215 28% 8%;
-    --card-foreground: 215 20% 95%;
-    
-    --popover: 215 28% 8%;
-    --popover-foreground: 215 20% 95%;
-    
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
-    --primary-subtle: 221 83% 12%;
-    
-    --secondary: 215 28% 12%;
-    --secondary-foreground: 215 20% 95%;
-    
-    --muted: 215 28% 12%;
-    --muted-foreground: 215 15% 65%;
-    
-    --accent: 215 28% 12%;
-    --accent-foreground: 215 20% 95%;
-    
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    
-    --border: 215 28% 16%;
-    --input: 215 28% 16%;
-    --ring: 221 83% 53%;
-    
-    /* Dark gradients */
-    --gradient-subtle: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(215 28% 9%) 100%);
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(221 83% 45%) 100%);
-    
-    /* Dark shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.1);
-    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.2), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.3), 0 4px 6px -2px hsl(0 0% 0% / 0.2);
-    
-    --sidebar-background: 215 28% 6%;
-    --sidebar-foreground: 215 20% 95%;
-    --sidebar-primary: 221 83% 53%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 28% 10%;
-    --sidebar-accent-foreground: 215 20% 95%;
-    --sidebar-border: 215 28% 16%;
-    --sidebar-ring: 221 83% 53%;
-  }
+/* Global base styles - maintaining the same visual design */
+* {
+  border-color: theme(colors.border);
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-  
-  /* Typography hierarchy like Notion */
-  h1 { @apply text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground; }
-  h2 { @apply text-2xl md:text-3xl font-semibold tracking-tight text-foreground; }
-  h3 { @apply text-xl md:text-2xl font-semibold tracking-tight text-foreground; }
-  h4 { @apply text-lg md:text-xl font-medium tracking-tight text-foreground; }
-  
-  /* Custom utility classes */
-  .text-balance { text-wrap: balance; }
-  .gradient-text { 
-    @apply bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent;
-  }
+body {
+  color: theme(colors.foreground);
+  background: theme(colors.background);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  font-family: theme(fontFamily.sans);
 }
 
-@layer components {
-  /* Modern card component */
-  .card-modern {
-    @apply bg-card border border-border/50 rounded-xl shadow-sm hover:shadow-md transition-all duration-200;
-  }
-  
-  /* Notion-style container */
+/* Typography hierarchy like Notion - keeping existing styles */
+h1 { 
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.1;  
+  letter-spacing: -0.025em;
+  color: theme(colors.foreground);
+}
+
+h2 { 
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: theme(colors.foreground);
+}
+
+h3 { 
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+  color: theme(colors.foreground);
+}
+
+h4 { 
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.025em;
+  color: theme(colors.foreground);
+}
+
+/* Utility classes */
+.text-balance { 
+  text-wrap: balance; 
+}
+
+.gradient-text { 
+  background: linear-gradient(to right, theme(colors.foreground), theme(colors.muted-foreground));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Modern component styles */
+.card-modern {
+  background: theme(colors.card);
+  border: 1px solid color-mix(in srgb, theme(colors.border) 50%, transparent);
+  border-radius: theme(borderRadius.lg);
+  box-shadow: theme(boxShadow.sm);
+  transition: box-shadow 0.2s ease;
+}
+
+.card-modern:hover {
+  box-shadow: theme(boxShadow.md);
+}
+
+.container-modern {
+  margin: 0 auto;
+  max-width: 80rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
   .container-modern {
-    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
-  
-  /* Button variants inspiration from v0/Render */
-  .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2 font-medium transition-colors;
-  }
-  
-  .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border/50 rounded-lg px-4 py-2 font-medium transition-all;
-  }
-  
-  .btn-ghost {
-    @apply text-muted-foreground hover:text-foreground hover:bg-secondary/50 rounded-lg px-4 py-2 font-medium transition-all;
+}
+
+@media (min-width: 1024px) {
+  .container-modern {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }

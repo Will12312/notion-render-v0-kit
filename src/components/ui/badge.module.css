@@ -1,0 +1,54 @@
+/* Badge component styles - Tailwind 4 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: theme(borderRadius.full);
+  border: 1px solid transparent;
+  padding: 0.125rem 0.625rem;
+  font-size: theme(fontSize.xs);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.badge:focus {
+  outline: 2px solid theme(colors.ring);
+  outline-offset: 2px;
+}
+
+/* Variants */
+.badge-default {
+  border-color: transparent;
+  background-color: theme(colors.primary);
+  color: theme(colors.primary-foreground);
+}
+
+.badge-default:hover {
+  background-color: color-mix(in srgb, theme(colors.primary) 80%, transparent);
+}
+
+.badge-secondary {
+  border-color: transparent;
+  background-color: theme(colors.secondary);
+  color: theme(colors.secondary-foreground);
+}
+
+.badge-secondary:hover {
+  background-color: color-mix(in srgb, theme(colors.secondary) 80%, transparent);
+}
+
+.badge-destructive {
+  border-color: transparent;
+  background-color: theme(colors.destructive);
+  color: theme(colors.destructive-foreground);
+}
+
+.badge-destructive:hover {
+  background-color: color-mix(in srgb, theme(colors.destructive) 80%, transparent);
+}
+
+.badge-outline {
+  color: theme(colors.foreground);
+  border-color: theme(colors.border);
+  background-color: transparent;
+}
