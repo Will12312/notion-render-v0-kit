@@ -5,7 +5,8 @@ import {
   Settings, 
   ShoppingCart, 
   FileText,
-  Plus
+  Calendar,
+  Bell
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -14,6 +15,7 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -21,13 +23,18 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-const navigationItems = [
-  { title: "Dashboard", url: "/dashboard", icon: Home },
-  { title: "Users", url: "/dashboard/users", icon: Users },
-  { title: "Analytics", url: "/dashboard/analytics", icon: BarChart3 },
-  { title: "Orders", url: "/dashboard/orders", icon: ShoppingCart },
-  { title: "Reports", url: "/dashboard/reports", icon: FileText },
-  { title: "Settings", url: "/dashboard/settings", icon: Settings },
+const mainItems = [
+  { title: "Tableau de bord", url: "/dashboard", icon: Home },
+  { title: "Utilisateurs", url: "/dashboard/users", icon: Users },
+  { title: "Commandes", url: "/dashboard/orders", icon: ShoppingCart },
+  { title: "Statistiques", url: "/dashboard/analytics", icon: BarChart3 },
+];
+
+const managementItems = [
+  { title: "Rapports", url: "/dashboard/reports", icon: FileText },
+  { title: "Calendrier", url: "/dashboard/calendar", icon: Calendar },
+  { title: "Notifications", url: "/dashboard/notifications", icon: Bell },
+  { title: "Paramètres", url: "/dashboard/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
@@ -36,40 +43,43 @@ export function AppSidebar() {
   const currentPath = location.pathname;
   const collapsed = state === "collapsed";
 
-  const isActive = (path: string) => currentPath === path;
+const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive 
-      ? "bg-foreground/5 text-foreground font-medium border-r-2 border-foreground" 
-      : "text-muted-foreground hover:text-foreground hover:bg-foreground/5";
+      ? "bg-primary/10 text-primary font-medium" 
+      : "text-muted-foreground hover:text-foreground hover:bg-accent/50";
 
   return (
     <Sidebar
-      className={collapsed ? "w-16" : "w-72"}
+      className={collapsed ? "w-14" : "w-64"}
       collapsible="icon"
     >
-      <SidebarHeader className="h-16 border-r border-border/20">
+      <SidebarHeader className="h-16">
         <div className="flex items-center px-6 h-full">
-          <div className="h-6 w-6 rounded-md bg-foreground flex items-center justify-center">
-            <span className="text-background font-bold text-xs">K</span>
+          <div className="h-8 w-8 rounded-full bg-gradient-to-r from-primary to-primary/60 flex items-center justify-center">
+            <span className="text-white font-semibold text-sm">D</span>
           </div>
           {!collapsed && (
-            <span className="ml-3 text-base font-medium text-foreground tracking-tight">
-              Krea
+            <span className="ml-3 text-lg font-semibold text-foreground">
+              Dashboard
             </span>
           )}
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-0 border-r border-border/20">
-        <SidebarGroup className="px-4 py-6">
+      <SidebarContent className="px-3">
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-xs font-medium text-muted-foreground px-3 py-2">
+            Principal
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
-              {navigationItems.map((item) => (
+            <SidebarMenu className="space-y-1">
+              {mainItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end className={getNavCls}>
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span className="text-sm">{item.title}</span>}
+                      <item.icon className="h-5 w-5" />
+                      {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -78,18 +88,25 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {!collapsed && (
-          <div className="px-4 pb-4 border-t border-border/20 pt-4 mt-auto">
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <button className="w-full flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-foreground/5 py-2">
-                  <Plus className="h-4 w-4" />
-                  <span>New Project</span>
-                </button>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </div>
-        )}
+        <SidebarGroup className="mt-8">
+          <SidebarGroupLabel className="text-xs font-medium text-muted-foreground px-3 py-2">
+            Gestion
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-1">
+              {managementItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink to={item.url} end className={getNavCls}>
+                      <item.icon className="h-5 w-5" />
+                      {!collapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   );
