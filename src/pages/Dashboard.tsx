@@ -5,74 +5,68 @@ import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 const Dashboard = () => {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-screen flex w-full">
         <AppSidebar />
         <div className="flex-1 flex flex-col">
           <DashboardHeader />
-          <main className="flex-1 p-6">
-            <div className="max-w-7xl mx-auto">
-              <h1 className="text-3xl font-semibold text-foreground mb-6">
-                Tableau de bord
-              </h1>
+          <main className="flex-1 px-12 py-10">
+            <div className="max-w-6xl mx-auto space-y-12">
+              <div className="text-center">
+                <h1 className="text-2xl font-medium text-foreground mb-2">
+                  Dashboard
+                </h1>
+                <p className="text-muted-foreground text-sm">
+                  Suivez vos performances en temps réel
+                </p>
+              </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Cartes de statistiques */}
-                <div className="bg-background border border-border/50 rounded-xl p-6 hover:shadow-sm transition-shadow">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
-                    Utilisateurs actifs
-                  </h3>
-                  <p className="text-3xl font-semibold text-foreground mb-1">1,234</p>
-                  <p className="text-sm text-emerald-600">
-                    +12% par rapport au mois dernier
-                  </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="bg-card/50 border-0 rounded-2xl p-8 text-center hover:bg-card/80 transition-all duration-200">
+                  <p className="text-4xl font-light text-foreground mb-2">1,234</p>
+                  <p className="text-sm text-muted-foreground mb-3">Utilisateurs actifs</p>
+                  <p className="text-xs text-emerald-600 font-medium">+12%</p>
                 </div>
                 
-                <div className="bg-background border border-border/50 rounded-xl p-6 hover:shadow-sm transition-shadow">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
-                    Revenus
-                  </h3>
-                  <p className="text-3xl font-semibold text-foreground mb-1">€45,670</p>
-                  <p className="text-sm text-emerald-600">
-                    +8% par rapport au mois dernier
-                  </p>
+                <div className="bg-card/50 border-0 rounded-2xl p-8 text-center hover:bg-card/80 transition-all duration-200">
+                  <p className="text-4xl font-light text-foreground mb-2">€45,670</p>
+                  <p className="text-sm text-muted-foreground mb-3">Revenus</p>
+                  <p className="text-xs text-emerald-600 font-medium">+8%</p>
                 </div>
                 
-                <div className="bg-background border border-border/50 rounded-xl p-6 hover:shadow-sm transition-shadow">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
-                    Commandes
-                  </h3>
-                  <p className="text-3xl font-semibold text-foreground mb-1">892</p>
-                  <p className="text-sm text-emerald-600">
-                    +15% par rapport au mois dernier
-                  </p>
+                <div className="bg-card/50 border-0 rounded-2xl p-8 text-center hover:bg-card/80 transition-all duration-200">
+                  <p className="text-4xl font-light text-foreground mb-2">892</p>
+                  <p className="text-sm text-muted-foreground mb-3">Commandes</p>
+                  <p className="text-xs text-emerald-600 font-medium">+15%</p>
                 </div>
               </div>
               
-              <div className="mt-8 bg-background border border-border/50 rounded-xl p-6">
-                <h2 className="text-lg font-semibold text-foreground mb-6">
+              <div className="bg-card/30 border-0 rounded-2xl p-8">
+                <h2 className="text-lg font-medium text-foreground mb-8 text-center">
                   Activité récente
                 </h2>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between py-4 border-b border-border/30">
-                    <div>
-                      <p className="font-medium text-foreground">Nouvelle commande</p>
-                      <p className="text-sm text-muted-foreground">Commande #1234 - €299</p>
-                    </div>
-                    <span className="text-xs text-muted-foreground">Il y a 5 min</span>
-                  </div>
-                  <div className="flex items-center justify-between py-4 border-b border-border/30">
-                    <div>
-                      <p className="font-medium text-foreground">Nouvel utilisateur</p>
-                      <p className="text-sm text-muted-foreground">john.doe@example.com</p>
-                    </div>
-                    <span className="text-xs text-muted-foreground">Il y a 12 min</span>
-                  </div>
+                <div className="space-y-6 max-w-2xl mx-auto">
                   <div className="flex items-center justify-between py-4">
-                    <div>
-                      <p className="font-medium text-foreground">Paiement reçu</p>
-                      <p className="text-sm text-muted-foreground">€450 de Premium Corp</p>
+                    <div className="flex-1">
+                      <p className="font-medium text-foreground text-sm">Nouvelle commande</p>
+                      <p className="text-xs text-muted-foreground mt-1">Commande #1234 - €299</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">Il y a 1h</span>
+                    <span className="text-xs text-muted-foreground">5 min</span>
+                  </div>
+                  <div className="h-px bg-border/30"></div>
+                  <div className="flex items-center justify-between py-4">
+                    <div className="flex-1">
+                      <p className="font-medium text-foreground text-sm">Nouvel utilisateur</p>
+                      <p className="text-xs text-muted-foreground mt-1">john.doe@example.com</p>
+                    </div>
+                    <span className="text-xs text-muted-foreground">12 min</span>
+                  </div>
+                  <div className="h-px bg-border/30"></div>
+                  <div className="flex items-center justify-between py-4">
+                    <div className="flex-1">
+                      <p className="font-medium text-foreground text-sm">Paiement reçu</p>
+                      <p className="text-xs text-muted-foreground mt-1">€450 de Premium Corp</p>
+                    </div>
+                    <span className="text-xs text-muted-foreground">1h</span>
                   </div>
                 </div>
               </div>
