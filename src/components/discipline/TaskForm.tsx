@@ -40,6 +40,8 @@ const taskSchema = z.object({
   startDate: z.date({
     required_error: "Une date de début est requise",
   }),
+  weeklyType: z.enum(['flexible', 'specific']).optional(),
+  specificDay: z.number().min(0).max(6).optional(),
 });
 
 type TaskFormData = z.infer<typeof taskSchema>;
@@ -56,16 +58,25 @@ export const TaskForm = ({ isOpen, onClose, onSubmit }: TaskFormProps) => {
     defaultValues: {
       title: "",
       description: "",
+      weeklyType: "flexible",
     },
   });
 
   const handleSubmit = (data: TaskFormData) => {
+    const weeklyConfig = data.frequency === 'weekly' ? {
+      type: data.weeklyType || 'flexible',
+      specificDay: data.weeklyType === 'specific' && data.specificDay !== undefined 
+        ? (data.specificDay as 0 | 1 | 2 | 3 | 4 | 5 | 6) 
+        : undefined,
+    } : undefined;
+
     onSubmit({
       title: data.title,
       description: data.description,
       recurrence: {
         frequency: data.frequency,
         startDate: data.startDate,
+        weeklyConfig,
       },
       completions: [],
     });
@@ -141,6 +152,57 @@ export const TaskForm = ({ isOpen, onClose, onSubmit }: TaskFormProps) => {
                 </FormItem>
               )}
             />
+            
+            {form.watch('frequency') === 'weekly' && (
+              <FormField
+                control={form.control}
+                name="weeklyType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Type d'habitude hebdomadaire</FormLabel>
+                    <FormControl>
+                      <select
+                        {...field}
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      >
+                        <option value="flexible">N'importe quand cette semaine</option>
+                        <option value="specific">Un jour précis de la semaine</option>
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            
+            {form.watch('frequency') === 'weekly' && form.watch('weeklyType') === 'specific' && (
+              <FormField
+                control={form.control}
+                name="specificDay"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Jour de la semaine</FormLabel>
+                    <FormControl>
+                      <select
+                        {...field}
+                        onChange={(e) => field.onChange(parseInt(e.target.value))}
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      >
+                        <option value="">Sélectionner un jour</option>
+                        <option value="1">Lundi</option>
+                        <option value="2">Mardi</option>
+                        <option value="3">Mercredi</option>
+                        <option value="4">Jeudi</option>
+                        <option value="5">Vendredi</option>
+                        <option value="6">Samedi</option>
+                        <option value="0">Dimanche</option>
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             
             <FormField
               control={form.control}

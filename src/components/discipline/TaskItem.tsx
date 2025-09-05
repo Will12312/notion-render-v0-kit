@@ -3,7 +3,7 @@ import { Task } from "./DisciplineTracker";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, Clock, Trash2, Calendar } from "lucide-react";
-import { format, startOfDay, isSameDay, addDays, addWeeks, addMonths } from "date-fns";
+import { format, startOfDay, isSameDay, addDays, addWeeks, addMonths, startOfWeek, endOfWeek } from "date-fns";
 
 interface TaskItemProps {
   task: Task;
@@ -15,7 +15,11 @@ export const TaskItem = ({ task, onToggleCompletion, onDeleteTask }: TaskItemPro
   const today = startOfDay(new Date());
   const todayString = today.toISOString().split('T')[0];
   
-  // Vérifier si l'habitude est due aujourd'hui
+  // Obtenir les dates de début et fin de semaine courante
+  const weekStart = startOfWeek(today, { weekStartsOn: 1 }); // Commence lundi
+  const weekEnd = endOfWeek(today, { weekStartsOn: 1 });
+  
+  // Vérifier si l'habitude est due aujourd'hui ou cette semaine
   const isDueToday = () => {
     const startDate = startOfDay(task.recurrence.startDate);
     
@@ -25,9 +29,13 @@ export const TaskItem = ({ task, onToggleCompletion, onDeleteTask }: TaskItemPro
       case 'daily':
         return today >= startDate;
       case 'weekly':
-        const weeksDiff = Math.floor((today.getTime() - startDate.getTime()) / (7 * 24 * 60 * 60 * 1000));
-        const nextWeeklyDate = addWeeks(startDate, weeksDiff);
-        return isSameDay(nextWeeklyDate, today) || isSameDay(addWeeks(nextWeeklyDate, 1), today);
+        if (task.recurrence.weeklyConfig?.type === 'specific') {
+          // Jour spécifique de la semaine
+          const specificDay = task.recurrence.weeklyConfig.specificDay;
+          return specificDay !== undefined && today.getDay() === specificDay && today >= startDate;
+        }
+        // Flexible dans la semaine - toujours "due" si pas encore fait cette semaine
+        return today >= startDate;
       case 'monthly':
         const monthsDiff = Math.floor((today.getTime() - startDate.getTime()) / (30 * 24 * 60 * 60 * 1000));
         const nextMonthlyDate = addMonths(startDate, monthsDiff);
@@ -37,10 +45,30 @@ export const TaskItem = ({ task, onToggleCompletion, onDeleteTask }: TaskItemPro
     }
   };
 
+  // Vérifier si l'habitude a été faite cette semaine (pour les habitudes hebdomadaires flexibles)
+  const isCompletedThisWeek = () => {
+    if (task.recurrence.frequency !== 'weekly' || task.recurrence.weeklyConfig?.type !== 'flexible') {
+      return false;
+    }
+    
+    const weekDates = [];
+    for (let d = new Date(weekStart); d <= weekEnd; d.setDate(d.getDate() + 1)) {
+      weekDates.push(d.toISOString().split('T')[0]);
+    }
+    
+    return weekDates.some(date => {
+      const completion = task.completions.find(c => c.date === date);
+      return completion?.completed === true;
+    });
+  };
+
   // Obtenir le statut de completion d'aujourd'hui
   const todayCompletion = task.completions.find(c => c.date === todayString);
   const isCompletedToday = todayCompletion?.completed ?? false;
   const hasStatusToday = todayCompletion !== undefined;
+  
+  // Pour les habitudes hebdomadaires flexibles
+  const completedThisWeek = isCompletedThisWeek();
 
   // Calculer les stats de la semaine dernière
   const getWeeklyStats = () => {
@@ -62,15 +90,50 @@ export const TaskItem = ({ task, onToggleCompletion, onDeleteTask }: TaskItemPro
   
   const getFrequencyDisplay = () => {
     switch (task.recurrence.frequency) {
-      case 'daily': return 'Quotidienne';
-      case 'weekly': return 'Hebdomadaire';
-      case 'monthly': return 'Mensuelle';
-      default: return '';
+      case 'daily': 
+        return 'Quotidienne';
+      case 'weekly':
+        if (task.recurrence.weeklyConfig?.type === 'flexible') {
+          return 'Cette semaine';
+        } else if (task.recurrence.weeklyConfig?.type === 'specific') {
+          const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+          const dayName = task.recurrence.weeklyConfig.specificDay !== undefined 
+            ? days[task.recurrence.weeklyConfig.specificDay]
+            : 'Hebdomadaire';
+          return `Chaque ${dayName}`;
+        }
+        return 'Hebdomadaire';
+      case 'monthly': 
+        return 'Mensuelle';
+      default: 
+        return '';
     }
   };
 
   const getStatusBadge = () => {
-    if (!isDueToday()) {
+    const due = isDueToday();
+    
+    // Pour les habitudes hebdomadaires flexibles
+    if (task.recurrence.frequency === 'weekly' && task.recurrence.weeklyConfig?.type === 'flexible') {
+      if (completedThisWeek) {
+        return (
+          <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 border-emerald-200">
+            <CheckCircle className="h-3 w-3 mr-1" />
+            Faite cette semaine
+          </Badge>
+        );
+      } else {
+        return (
+          <Badge variant="outline" className="bg-blue-100 text-blue-700 border-blue-200">
+            <Clock className="h-3 w-3 mr-1" />
+            À faire cette semaine
+          </Badge>
+        );
+      }
+    }
+
+    // Pour les autres types d'habitudes
+    if (!due) {
       return (
         <Badge variant="outline" className="bg-gray-100 text-gray-700 border-gray-200">
           <Calendar className="h-3 w-3 mr-1" />
@@ -105,10 +168,25 @@ export const TaskItem = ({ task, onToggleCompletion, onDeleteTask }: TaskItemPro
     );
   };
 
+  // Déterminer si on peut agir sur cette habitude
+  const canAct = () => {
+    if (task.recurrence.frequency === 'weekly' && task.recurrence.weeklyConfig?.type === 'flexible') {
+      return !completedThisWeek; // On peut agir si pas encore fait cette semaine
+    }
+    return isDueToday() && !hasStatusToday; // Logique normale pour les autres
+  };
+
+  const canModify = () => {
+    if (task.recurrence.frequency === 'weekly' && task.recurrence.weeklyConfig?.type === 'flexible') {
+      return completedThisWeek; // On peut modifier si déjà fait cette semaine
+    }
+    return hasStatusToday; // Logique normale pour les autres
+  };
+
   return (
     <div className={`
       p-4 rounded-lg border transition-all
-      ${isCompletedToday 
+      ${isCompletedToday || completedThisWeek
         ? 'bg-emerald-50/50 border-emerald-200/50' 
         : hasStatusToday && !isCompletedToday
         ? 'bg-red-50/50 border-red-200/50'
@@ -119,7 +197,7 @@ export const TaskItem = ({ task, onToggleCompletion, onDeleteTask }: TaskItemPro
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-2">
             <h3 className={`font-medium truncate ${
-              isCompletedToday ? 'text-emerald-700' : 'text-foreground'
+              isCompletedToday || completedThisWeek ? 'text-emerald-700' : 'text-foreground'
             }`}>
               {task.title}
             </h3>
@@ -140,7 +218,7 @@ export const TaskItem = ({ task, onToggleCompletion, onDeleteTask }: TaskItemPro
         </div>
         
         <div className="flex items-center gap-2 flex-shrink-0">
-          {isDueToday() && !hasStatusToday && (
+          {canAct() && (
             <>
               <Button
                 size="sm"
@@ -163,11 +241,11 @@ export const TaskItem = ({ task, onToggleCompletion, onDeleteTask }: TaskItemPro
             </>
           )}
           
-          {hasStatusToday && (
+          {canModify() && (
             <Button
               size="sm"
               variant="outline"
-              onClick={() => onToggleCompletion(task.id, !isCompletedToday)}
+              onClick={() => onToggleCompletion(task.id, !(isCompletedToday || completedThisWeek))}
               className="h-8 px-3"
             >
               Modifier

@@ -12,6 +12,10 @@ export interface Task {
   recurrence: {
     frequency: 'daily' | 'weekly' | 'monthly';
     startDate: Date;
+    weeklyConfig?: {
+      type: 'flexible' | 'specific'; // flexible = n'importe quand dans la semaine
+      specificDay?: 0 | 1 | 2 | 3 | 4 | 5 | 6; // 0 = dimanche, 1 = lundi, etc.
+    };
   };
   completions: { date: string; completed: boolean }[]; // format: YYYY-MM-DD
   createdAt: Date;
