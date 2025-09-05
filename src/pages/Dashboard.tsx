@@ -4,6 +4,7 @@ import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { DisciplineTracker } from "@/components/discipline/DisciplineTracker";
 
 const Dashboard = () => {
+  console.log("Dashboard: Component is rendering");
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">

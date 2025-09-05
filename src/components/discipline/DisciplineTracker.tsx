@@ -22,6 +22,7 @@ export interface Task {
 }
 
 export const DisciplineTracker = () => {
+  console.log("DisciplineTracker: Component is rendering");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -57,9 +58,12 @@ export const DisciplineTracker = () => {
   return (
     <Card className="bg-background border border-border/50">
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
-        <CardTitle className="text-lg font-semibold">Mes Habitudes</CardTitle>
+        <CardTitle className="text-lg font-semibold">🎯 Mes Habitudes</CardTitle>
         <Button 
-          onClick={() => setIsFormOpen(true)} 
+          onClick={() => {
+            console.log("Button clicked, opening form");
+            setIsFormOpen(true);
+          }} 
           size="sm" 
           className="flex items-center gap-2"
         >
