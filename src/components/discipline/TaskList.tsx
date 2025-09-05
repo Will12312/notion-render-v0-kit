@@ -12,17 +12,34 @@ export const TaskList = ({ tasks, onToggleCompletion, onDeleteTask }: TaskListPr
   if (tasks.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        <p>Aucune tâche ajoutée pour le moment.</p>
-        <p className="text-sm mt-1">Commencez par ajouter votre première tâche !</p>
+        <p>Aucune habitude ajoutée pour le moment.</p>
+        <p className="text-sm mt-1">Commencez par ajouter votre première habitude !</p>
       </div>
     );
   }
 
-  // Trier les tâches : non complétées en premier, puis par échéance
+  // Trier les habitudes : celles dues aujourd'hui en premier, puis par date de création
   const sortedTasks = [...tasks].sort((a, b) => {
-    if (a.completed && !b.completed) return 1;
-    if (!a.completed && b.completed) return -1;
-    return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+    const today = new Date().toISOString().split('T')[0];
+    
+    const aHasStatusToday = a.completions.some(c => c.date === today);
+    const bHasStatusToday = b.completions.some(c => c.date === today);
+    
+    const aCompletedToday = a.completions.find(c => c.date === today)?.completed ?? false;
+    const bCompletedToday = b.completions.find(c => c.date === today)?.completed ?? false;
+    
+    // Prioriser les habitudes non traitées aujourd'hui
+    if (!aHasStatusToday && bHasStatusToday) return -1;
+    if (aHasStatusToday && !bHasStatusToday) return 1;
+    
+    // Puis celles ratées
+    if (aHasStatusToday && bHasStatusToday) {
+      if (!aCompletedToday && bCompletedToday) return -1;
+      if (aCompletedToday && !bCompletedToday) return 1;
+    }
+    
+    // Enfin par date de création (plus récentes en premier)
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
 
   return (

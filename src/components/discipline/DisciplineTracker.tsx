@@ -9,8 +9,11 @@ export interface Task {
   id: string;
   title: string;
   description?: string;
-  deadline: Date;
-  completed?: boolean;
+  recurrence: {
+    frequency: 'daily' | 'weekly' | 'monthly';
+    startDate: Date;
+  };
+  completions: { date: string; completed: boolean }[]; // format: YYYY-MM-DD
   createdAt: Date;
 }
 
@@ -29,9 +32,18 @@ export const DisciplineTracker = () => {
   };
 
   const toggleTaskCompletion = (taskId: string, completed: boolean) => {
-    setTasks(tasks.map(task =>
-      task.id === taskId ? { ...task, completed } : task
-    ));
+    const today = new Date().toISOString().split('T')[0]; // Format YYYY-MM-DD
+    
+    setTasks(tasks.map(task => {
+      if (task.id !== taskId) return task;
+      
+      const existingCompletion = task.completions.find(c => c.date === today);
+      const updatedCompletions = existingCompletion
+        ? task.completions.map(c => c.date === today ? { ...c, completed } : c)
+        : [...task.completions, { date: today, completed }];
+        
+      return { ...task, completions: updatedCompletions };
+    }));
   };
 
   const deleteTask = (taskId: string) => {
@@ -41,14 +53,14 @@ export const DisciplineTracker = () => {
   return (
     <Card className="bg-background border border-border/50">
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
-        <CardTitle className="text-lg font-semibold">Discipline Tracker</CardTitle>
+        <CardTitle className="text-lg font-semibold">Mes Habitudes</CardTitle>
         <Button 
           onClick={() => setIsFormOpen(true)} 
           size="sm" 
           className="flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
-          Ajouter une tâche
+          Ajouter une habitude
         </Button>
       </CardHeader>
       <CardContent>

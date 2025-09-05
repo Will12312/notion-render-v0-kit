@@ -34,8 +34,11 @@ import { Task } from "./DisciplineTracker";
 const taskSchema = z.object({
   title: z.string().min(1, "Le titre est requis").max(100, "Le titre est trop long"),
   description: z.string().optional(),
-  deadline: z.date({
-    required_error: "Une échéance est requise",
+  frequency: z.enum(['daily', 'weekly', 'monthly'], {
+    required_error: "La fréquence est requise",
+  }),
+  startDate: z.date({
+    required_error: "Une date de début est requise",
   }),
 });
 
@@ -60,7 +63,11 @@ export const TaskForm = ({ isOpen, onClose, onSubmit }: TaskFormProps) => {
     onSubmit({
       title: data.title,
       description: data.description,
-      deadline: data.deadline,
+      recurrence: {
+        frequency: data.frequency,
+        startDate: data.startDate,
+      },
+      completions: [],
     });
     form.reset();
   };
@@ -74,9 +81,9 @@ export const TaskForm = ({ isOpen, onClose, onSubmit }: TaskFormProps) => {
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Ajouter une nouvelle tâche</DialogTitle>
+          <DialogTitle>Ajouter une nouvelle habitude</DialogTitle>
           <DialogDescription>
-            Créez une tâche avec une échéance pour améliorer votre discipline.
+            Créez une habitude récurrente pour améliorer votre discipline.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -86,7 +93,7 @@ export const TaskForm = ({ isOpen, onClose, onSubmit }: TaskFormProps) => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Titre de la tâche</FormLabel>
+                  <FormLabel>Titre de l'habitude</FormLabel>
                   <FormControl>
                     <Input placeholder="Ex: Faire du sport" {...field} />
                   </FormControl>
@@ -103,7 +110,7 @@ export const TaskForm = ({ isOpen, onClose, onSubmit }: TaskFormProps) => {
                   <FormLabel>Description (optionnelle)</FormLabel>
                   <FormControl>
                     <Textarea 
-                      placeholder="Détails sur la tâche..."
+                      placeholder="Détails sur l'habitude..."
                       className="min-h-[80px]"
                       {...field}
                     />
@@ -115,10 +122,32 @@ export const TaskForm = ({ isOpen, onClose, onSubmit }: TaskFormProps) => {
             
             <FormField
               control={form.control}
-              name="deadline"
+              name="frequency"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Fréquence</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    >
+                      <option value="">Sélectionner une fréquence</option>
+                      <option value="daily">Tous les jours</option>
+                      <option value="weekly">Toutes les semaines</option>
+                      <option value="monthly">Tous les mois</option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="startDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Échéance</FormLabel>
+                  <FormLabel>Date de début</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -143,7 +172,6 @@ export const TaskForm = ({ isOpen, onClose, onSubmit }: TaskFormProps) => {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
                         initialFocus
                         className={cn("p-3 pointer-events-auto")}
                       />
