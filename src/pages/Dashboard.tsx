@@ -1,6 +1,7 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/dashboard/AppSidebar";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { DisciplineTracker } from "@/components/discipline/DisciplineTracker";
 
 const Dashboard = () => {
   return (
@@ -46,6 +47,11 @@ const Dashboard = () => {
                     +15% par rapport au mois dernier
                   </p>
                 </div>
+              </div>
+              
+              {/* Discipline Tracker */}
+              <div className="mt-8">
+                <DisciplineTracker />
               </div>
               
               <div className="mt-8 bg-background border border-border/50 rounded-xl p-6">
